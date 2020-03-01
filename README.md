@@ -10,4 +10,7 @@ Devices:
 Commands:
 - [g]et
 - [s]et
+- [p]ercent
+- [i]ncrease
+- [d]ecrease
 ```

@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 	}
 	else
 		return usage();
-	
+
 	if (argc < 3) {
 		print_brightness(path);
 		return (0);
@@ -43,6 +43,15 @@ int main(int argc, char *argv[]) {
 			break;
 		case 's':
 			set_brightness(path, argv[3]);
+			break;
+		case 'p':
+			set_percentage(path, argv[3]);
+			break;
+		case 'i':
+			inc_percentage(path, argv[3]);
+			break;
+		case 'd':
+			dec_percentage(path, argv[3]);
 			break;
 		default:
 			usage();
@@ -61,7 +70,7 @@ int get_max_brightness(char *path) {
 	FILE *f;
 	char buff[255];
 	char *filepath;
-	
+
 	filepath = append_filename(path, "max_brightness");
 	f = fopen(filepath, "r");
 	fgets(buff, 255, f);
@@ -74,7 +83,7 @@ int get_brightness(char *path) {
 	FILE *f;
 	char buff[255];
 	char *filepath;
-	
+
 	filepath = append_filename(path, "brightness");
 	f = fopen(filepath, "r");
 	fgets(buff, 255, f);
@@ -101,11 +110,34 @@ void set_brightness(char *path, char *brightness) {
 	fclose(f);
 }
 
-/*void set_percentage(char *path, char *percentage) {
+void set_percentage(char *path, char *percentage) {
 	FILE *f;
+	int brightness = (atoi(percentage) * 0.01) * get_max_brightness(path);
+	char number[10];
 
-	f 
-}*/
+	sprintf(number, "%i", brightness);
+	set_brightness(path, number);
+}
+
+void inc_percentage(char *path, char *percentage) {
+	FILE *f;
+	char number[10];
+	int inc = (atoi(percentage) * 0.01) * get_max_brightness(path);
+	int brightness = get_brightness(path) + inc;
+
+	sprintf(number, "%i", brightness);
+	set_brightness(path, number);
+}
+
+void dec_percentage(char *path, char *percentage) {
+	FILE *f;
+	char number[10];
+	int dec = (atoi(percentage) * 0.01) * get_max_brightness(path);
+	int brightness = get_brightness(path) - dec;
+
+	sprintf(number, "%i", brightness);
+	set_brightness(path, number);
+}
 
 int usage(void) {
 	printf(
