@@ -8,9 +8,9 @@ Devices:
 - [d]isplay
 
 Commands:
-- [g]et
-- [s]et
-- [p]ercent
-- [i]ncrease
-- [d]ecrease
+- [g]et              Get a device's brightness level
+- [s]et <num>        Set a device's brightness level
++ [p]ercent <num>    Set a device's brightness to percentage
++ [i]nc <per>        Increase a device's brightness level by percentage
++ [d]ec <per>        Decrease a device's brightness level by percentage
 ```
