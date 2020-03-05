@@ -8,6 +8,8 @@ int	get_max_brightness(char *path);
 int	get_brightness(char *path);
 void	print_brightness(char *path);
 void	set_brightness(char *path, char *brightness);
+void	add_brightness(char *path, char *brightness);
+void	sub_brightness(char *path, char *brightness);
 void	set_percentage(char *path, char *percentage);
 void	inc_percentage(char *path, char *percentage);
 void	dec_percentage(char *path, char *percentage);
@@ -42,6 +44,12 @@ int main(int argc, char *argv[])
 			break;
 		case 's':
 			set_brightness(path, argv[3]);
+			break;
+		case 'a':
+			add_brightness(path, argv[3]);
+			break;
+		case 'u':
+			sub_brightness(path, argv[3]);
 			break;
 		case 'p':
 			set_percentage(path, argv[3]);
@@ -102,6 +110,22 @@ void set_brightness(char *path, char *brightness)
 	fclose(f);
 }
 
+void add_brightness(char *path, char *brightness)
+{
+	int newBrightness = (get_brightness(path) + atoi(brightness));
+	char number[10];
+	sprintf(number, "%i", newBrightness);
+	set_brightness(path, number);
+}
+
+void sub_brightness(char *path, char *brightness)
+{
+	int newBrightness = (get_brightness(path) - atoi(brightness));
+	char number[10];
+	sprintf(number, "%i", newBrightness);
+	set_brightness(path, number);
+}
+
 void set_percentage(char *path, char *percentage)
 {
 	int brightness = (atoi(percentage) * 0.01) * get_max_brightness(path);
@@ -140,6 +164,8 @@ Devices:\n\
 Commands:\n\
 - [g]et\t\t\tGet a device's brightness level\n\
 - [s]et <num>\t\tSet a device's brightness level\n\
+- [a]dd <num>\t\tIncrease a device's brightness by number\n\
+- s[u]b <num>\t\tDecrease a device's brightness by number\n\
 - [p]ercent <num>\tSet a device's brightness to percentage\n\
 - [i]nc <per>\t\tIncrease a device's brightness level by percentage\n\
 - [d]ec <per>\t\tDecrease a device's brightness level by percentage\n"
