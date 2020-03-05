@@ -17,28 +17,32 @@ void	dec_percentage(char *path, char *percentage);
 
 int main(int argc, char *argv[])
 {
-	char *disp_path = "/sys/class/backlight/intel_backlight/";
+	char *dsp_path = "/sys/class/backlight/intel_backlight/";
 	char *kbd_path = "/sys/class/leds/smc::kbd_backlight/";
 	char *path;
 
 	if (argc < 2)
 		return usage();
 
-	if (argv[1][0] == 'k') {
-		path = kbd_path;
+	switch (argv[1][0])
+	{
+		case 'k':
+			path = kbd_path;
+			break;
+		case 'd':
+			path = dsp_path;
+			break;
+		default:
+			return usage();
 	}
-	else if (argv[1][0] == 'd') {
-		path = disp_path;
-	}
-	else
-		return usage();
 
 	if (argc < 3) {
 		print_brightness(path);
 		return (0);
 	}
 
-	switch (argv[2][0]) {
+	switch (argv[2][0])
+	{
 		case 'g':
 			print_brightness(path);
 			break;
@@ -61,7 +65,7 @@ int main(int argc, char *argv[])
 			dec_percentage(path, argv[3]);
 			break;
 		default:
-			usage();
+			return usage();
 	}
 
 	return (0);
